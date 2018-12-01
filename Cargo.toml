@@ -4,3 +4,6 @@ version = "0.1.0"
 authors = ["Seth Samuel <sethfsamuel@gmail.com>"]
 
 [dependencies]
+"dialoguer" = "0.3.0"
+"console" = "0.7.0"
+"indicatif" = "0.10.1"

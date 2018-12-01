@@ -1,17 +1,22 @@
+extern crate indicatif;
+use self::indicatif::ProgressBar;
+
 pub fn frequency() {
     println!("Calculating frequency...");
 
     let input = include_str!("input.txt");
 
-    println!("File size read {}", input.len());
-
     let lines = input.split('\n');
+    let line_count = lines.clone().count();
 
-    let frequency = lines.fold(0, |current, line| {
+    let progress_bar = ProgressBar::new(line_count as u64);
+
+    let frequency = progress_bar.wrap_iter(lines).fold(0, |current, line| {
         current + line
             .parse::<i32>()
             .unwrap_or_else(|err| panic!("Failed to parse line! {}", err))
     });
+    progress_bar.finish();
 
     println!("Final frequency: {}", frequency);
 }
