@@ -5,9 +5,11 @@ extern crate dialoguer;
 use dialoguer::Select;
 
 mod day_1;
+mod day_2;
 
 fn main() {
-    let _ = puzzle_prompt();
+    // let _ = puzzle_prompt();
+    day_2::part_2();
 }
 
 fn puzzle_prompt() -> Result<bool, Box<std::error::Error>> {
