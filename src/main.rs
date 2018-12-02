@@ -7,9 +7,27 @@ use dialoguer::Select;
 mod day_1;
 mod day_2;
 
+use std::time::{Duration, Instant};
 fn main() {
     // let _ = puzzle_prompt();
-    day_2::part_2();
+    {
+        let now = Instant::now();
+        day_2::part_2();
+        println!(
+            "Elapsed: {}.{}",
+            now.elapsed().as_secs(),
+            now.elapsed().subsec_millis()
+        );
+    }
+    {
+        let now = Instant::now();
+        day_2::part_2_v2();
+        println!(
+            "Elapsed: {}.{}",
+            now.elapsed().as_secs(),
+            now.elapsed().subsec_millis()
+        );
+    }
 }
 
 fn puzzle_prompt() -> Result<bool, Box<std::error::Error>> {

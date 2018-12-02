@@ -1,9 +1,9 @@
 use console::style;
 use std::collections::HashMap;
 
-pub fn part_1() {
-    let input = include_str!("input.txt");
+const input: &str = include_str!("input.txt");
 
+pub fn part_1() {
     let count_2s = input
         .lines()
         .filter(|l| {
@@ -32,7 +32,6 @@ pub fn part_1() {
 }
 
 pub fn part_2() {
-    let input = include_str!("input.txt");
     let lines = input.lines();
     let other_lines = input.lines();
     for line in lines {
@@ -55,5 +54,29 @@ pub fn part_2() {
                 return;
             }
         }
+    }
+}
+
+pub fn part_2_v2() {
+    let mut line_minus_1: HashMap<String, &str> = HashMap::new();
+    let last = input.lines().find_map(|line| {
+        for i in 0..line.chars().count() {
+            let sans = line
+                .char_indices()
+                .filter(|c| c.0 != i)
+                .map(|c| c.1)
+                .collect::<String>();
+            if line_minus_1.get(&sans).is_some() && line_minus_1.get(&sans).unwrap() != &line {
+                return Some(sans);
+            } else {
+                line_minus_1.insert(sans, line);
+            }
+        }
+        None
+    });
+
+    match last {
+        Some(last) => println!("Common chars: {}", style(last).green()),
+        None => println!("{}", style("No match found!").red()),
     }
 }
