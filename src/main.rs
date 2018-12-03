@@ -7,7 +7,7 @@ use dialoguer::Select;
 mod day_1;
 mod day_2;
 
-use std::time::{Duration, Instant};
+use std::time::Instant;
 fn main() {
     // let _ = puzzle_prompt();
     {
@@ -30,7 +30,7 @@ fn main() {
     }
 }
 
-fn puzzle_prompt() -> Result<bool, Box<std::error::Error>> {
+fn _puzzle_prompt() -> Result<bool, Box<std::error::Error>> {
     println!("Advent of {}!", style("Code").yellow());
 
     let mut select = Select::new();
@@ -39,8 +39,8 @@ fn puzzle_prompt() -> Result<bool, Box<std::error::Error>> {
     select.default(0);
     let result = select.interact();
     match result {
-        Ok(0) => day_1::frequency(),
-        Ok(1) => day_1::frequency_match(),
+        Ok(0) => day_1::_frequency(),
+        Ok(1) => day_1::_frequency_match(),
         _ => panic!("Unknown part"),
     };
 

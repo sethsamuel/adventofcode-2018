@@ -1,7 +1,7 @@
 extern crate indicatif;
 use self::indicatif::ProgressBar;
 
-pub fn frequency() {
+pub fn _frequency() {
     println!("Calculating frequency...");
 
     let input = include_str!("input.txt");
@@ -22,7 +22,7 @@ pub fn frequency() {
 }
 
 use std::collections::HashMap;
-pub fn frequency_match() {
+pub fn _frequency_match() {
     let input = include_str!("input.txt");
     let mut current = 0;
     let mut found = false;
