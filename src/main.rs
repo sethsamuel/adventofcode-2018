@@ -1,3 +1,4 @@
+#![allow(dead_code)]
 extern crate console;
 use console::style;
 
@@ -6,22 +7,14 @@ use dialoguer::Select;
 
 mod day_1;
 mod day_2;
+mod day_3;
 
 use std::time::Instant;
 fn main() {
     // let _ = puzzle_prompt();
     {
         let now = Instant::now();
-        day_2::part_2();
-        println!(
-            "Elapsed: {}.{}",
-            now.elapsed().as_secs(),
-            now.elapsed().subsec_millis()
-        );
-    }
-    {
-        let now = Instant::now();
-        day_2::part_2_v2();
+        day_3::part_2();
         println!(
             "Elapsed: {}.{}",
             now.elapsed().as_secs(),
