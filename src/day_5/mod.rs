@@ -11,10 +11,10 @@ fn reduce(string: &str) -> String {
         //Find reaction and update string
         was_reaction = false;
         // println!("Current chars {:?}", input);
-        let progress_bar = ProgressBar::new(input.len() as u64);
+        // let progress_bar = ProgressBar::new(input.len() as u64);
 
         for i in 0..input.len() - 1 {
-            progress_bar.inc(1);
+            // progress_bar.inc(1);
             if i > input.len() - 2 {
                 //Mutated outside length
                 continue;
@@ -58,7 +58,7 @@ fn reduce(string: &str) -> String {
                 continue;
             }
         }
-        progress_bar.finish();
+        // progress_bar.finish();
     }
     input
 }
@@ -68,18 +68,31 @@ pub fn part_1() {
     println!("Final product {} of length {}", input, input.len());
 }
 use std::collections::HashMap;
+use std::thread;
+use std::time::Duration;
 pub fn part_2() {
     let mut lengths: HashMap<char, usize> = HashMap::new();
-    for alpha_byte in b'a'..=b'z' {
-        let alpha = alpha_byte as char;
-        println!("Removing all {}", alpha);
-        let mut input = INPUT.clone().to_string();
-        input = input.replace(&alpha.to_string(), "");
-        input = input.replace(&alpha.to_string().to_uppercase(), "");
-        let reduced = reduce(&input);
-        println!("Final product {} of length {}", reduced, reduced.len());
-        lengths.insert(alpha, reduced.len());
-    }
+    (b'a'..=b'z')
+        .map(|alpha_byte| {
+            let alpha = alpha_byte as char;
+            println!("Removing all {}", alpha);
+            let mut input = INPUT.clone().to_string();
+            input = input.replace(&alpha.to_string(), "");
+            input = input.replace(&alpha.to_string().to_uppercase(), "");
+            let child = thread::spawn(move || {
+                let reduced = reduce(&input);
+                // println!("Final product {} of length {}", reduced, reduced.len());
+                reduced
+            });
+            thread::sleep(Duration::from_millis(1));
+
+            (alpha, child)
+        }).collect::<Vec<_>>()
+        .into_iter()
+        .for_each(|(alpha, child)| {
+            let reduced = child.join().unwrap();
+            lengths.insert(alpha, reduced.len());
+        });
 
     let shortest = lengths.keys().min_by_key(|k| lengths[k]).unwrap();
     println!(
