@@ -65,7 +65,7 @@ impl<'a> Eq for Guard<'a> {}
 
 extern crate regex;
 use self::regex::Regex;
-use std::collections::{HashMap, HashSet};
+use std::collections::HashMap;
 pub fn part_1() {
     let mut actions = INPUT.lines().collect::<Vec<&str>>();
     actions.sort();
