@@ -19,7 +19,7 @@ fn main() {
     // let _ = puzzle_prompt();
     {
         let now = Instant::now();
-        day_8::part_1();
+        day_8::part_2();
         println!(
             "Elapsed: {}.{}",
             now.elapsed().as_secs(),
