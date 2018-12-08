@@ -10,13 +10,14 @@ mod day_2;
 mod day_3;
 mod day_4;
 mod day_5;
+mod day_6;
 
 use std::time::Instant;
 fn main() {
     // let _ = puzzle_prompt();
     {
         let now = Instant::now();
-        day_5::part_2();
+        day_6::part_2();
         println!(
             "Elapsed: {}.{}",
             now.elapsed().as_secs(),

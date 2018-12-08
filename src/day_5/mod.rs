@@ -1,8 +1,8 @@
 const INPUT: &str = include_str!("input.txt");
 // const INPUT: &str = include_str!("small_input.txt");
 
-extern crate indicatif;
-use self::indicatif::ProgressBar;
+// extern crate indicatif;
+// use self::indicatif::ProgressBar;
 
 fn reduce(string: &str) -> String {
     let mut input = string.clone().to_string();
