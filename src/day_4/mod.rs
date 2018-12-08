@@ -88,9 +88,10 @@ pub fn part_1() {
                 sleeps: vec![],
                 total_minutes: 0,
             });
-            while iter_actions.peek().is_some() && parse_line(*iter_actions.peek().unwrap())
-                .event
-                .starts_with("falls")
+            while iter_actions.peek().is_some()
+                && parse_line(*iter_actions.peek().unwrap())
+                    .event
+                    .starts_with("falls")
             {
                 let sleep = parse_line(iter_actions.next().unwrap());
                 let wake = parse_line(iter_actions.next().unwrap());
@@ -108,11 +109,7 @@ pub fn part_1() {
             done = true;
         }
     }
-    let longest_sleep = guards
-        .values()
-        .into_iter()
-        .max_by_key(|g| g.total_minutes)
-        .unwrap();
+    let longest_sleep = guards.values().max_by_key(|g| g.total_minutes).unwrap();
     println!("Longest sleep by {}", longest_sleep.id);
     let mut minutes_slept: HashMap<i32, i32> = HashMap::new();
     for sleep in longest_sleep.sleeps.clone().into_iter() {
@@ -151,9 +148,10 @@ pub fn part_2() {
                 sleeps: vec![],
                 total_minutes: 0,
             });
-            while iter_actions.peek().is_some() && parse_line(*iter_actions.peek().unwrap())
-                .event
-                .starts_with("falls")
+            while iter_actions.peek().is_some()
+                && parse_line(*iter_actions.peek().unwrap())
+                    .event
+                    .starts_with("falls")
             {
                 let sleep = parse_line(iter_actions.next().unwrap());
                 let wake = parse_line(iter_actions.next().unwrap());
@@ -174,7 +172,6 @@ pub fn part_2() {
 
     let frequentest_sleep = guards
         .values()
-        .into_iter()
         .max_by_key(|g| {
             let mut minutes_slept: HashMap<i32, i32> = HashMap::new();
             for sleep in g.sleeps.clone().into_iter() {
@@ -185,8 +182,9 @@ pub fn part_2() {
             }
             println!("Minute totals {:?}", minutes_slept);
             let most_slept_minute = minutes_slept.values().max().unwrap_or(&0);
-            most_slept_minute.clone()
-        }).unwrap();
+            *most_slept_minute
+        })
+        .unwrap();
     println!("Most frequent sleep by {}", frequentest_sleep.id);
     let mut minutes_slept: HashMap<i32, i32> = HashMap::new();
     for sleep in frequentest_sleep.sleeps.clone().into_iter() {

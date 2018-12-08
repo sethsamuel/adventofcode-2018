@@ -13,6 +13,7 @@ lazy_static! {
 type PrevSteps = Vec<char>;
 
 use std::collections::HashMap;
+#[allow(clippy::map_clone)]
 pub fn part_1() {
     let rules = INPUT.lines().map(|l| {
         (
@@ -38,8 +39,8 @@ pub fn part_1() {
     });
     let mut steps: HashMap<char, PrevSteps> = HashMap::new();
     for rule in rules {
-        steps.entry(rule.1).or_insert(vec![]).push(rule.0);
-        steps.entry(rule.0).or_insert(vec![]);
+        steps.entry(rule.1).or_insert_with(|| vec![]).push(rule.0);
+        steps.entry(rule.0).or_insert_with(|| vec![]);
     }
     println!("Steps {:?}", steps);
     let mut ordered_steps: PrevSteps = vec![];
@@ -47,7 +48,7 @@ pub fn part_1() {
         let steps_copy = steps.clone();
         let mut next_steps = steps_copy
             .keys()
-            .filter(|k| steps.get(k).unwrap().len() == 0)
+            .filter(|k| steps[k].is_empty())
             .collect::<Vec<&char>>();
         next_steps.sort();
 
@@ -77,6 +78,7 @@ struct Worker {
     finished_at: u32,
 }
 
+#[allow(clippy::map_clone)]
 pub fn part_2() {
     let rules = INPUT.lines().map(|l| {
         (
@@ -102,8 +104,8 @@ pub fn part_2() {
     });
     let mut steps: HashMap<char, PrevSteps> = HashMap::new();
     for rule in rules {
-        steps.entry(rule.1).or_insert(vec![]).push(rule.0);
-        steps.entry(rule.0).or_insert(vec![]);
+        steps.entry(rule.1).or_insert_with(|| vec![]).push(rule.0);
+        steps.entry(rule.0).or_insert_with(|| vec![]);
     }
     println!("Steps {:?}", steps);
     let mut ordered_steps: PrevSteps = vec![];
@@ -114,7 +116,8 @@ pub fn part_2() {
         .map(|_| Worker {
             on_step: None,
             finished_at: 0,
-        }).collect();
+        })
+        .collect();
     let total_steps = steps.keys().count();
     println!("Total steps {}", total_steps);
 
@@ -144,11 +147,11 @@ pub fn part_2() {
                 let steps_copy = steps.clone();
                 let mut next_steps = steps_copy
                     .keys()
-                    .filter(|k| steps.get(k).unwrap().len() == 0)
+                    .filter(|k| steps[k].is_empty())
                     .collect::<Vec<&char>>();
                 next_steps.sort();
 
-                if next_steps.len() > 0 {
+                if !next_steps.is_empty() {
                     let mut next_step = next_steps[0];
                     steps.remove(next_step);
                     worker.on_step = Some(*next_step);

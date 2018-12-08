@@ -1,7 +1,7 @@
 const INPUT: &str = include_str!("input.txt");
 // const INPUT: &str = include_str!("small_input.txt");
 
-#[derive(Debug, Eq, Hash, Copy)]
+#[derive(Debug, Eq, Copy)]
 struct Coord {
     x: i32,
     y: i32,
@@ -14,12 +14,12 @@ impl Clone for Coord {
 }
 
 impl Coord {
-    fn distance(&self, other: &Coord) -> i32 {
+    fn distance(self, other: Coord) -> i32 {
         // println!("Distance from {:?} to {:?}", self, other);
         (self.x - other.x).abs() + (self.y - other.y).abs()
     }
 
-    fn closest_coord<T>(&self, coords: T) -> ClosestCoord
+    fn closest_coord<T>(self, coords: T) -> ClosestCoord
     where
         T: IntoIterator<Item = Coord>,
     {
@@ -28,8 +28,8 @@ impl Coord {
         for coord in coords.into_iter() {
             match closest_coord {
                 ClosestCoord::Multiple(closest) => {
-                    let distance = point.distance(&coord);
-                    let closest_distance = point.distance(&closest);
+                    let distance = point.distance(coord);
+                    let closest_distance = point.distance(closest);
                     if distance < closest_distance {
                         closest_coord = ClosestCoord::Some(coord);
                     } else if distance == closest_distance {
@@ -38,8 +38,8 @@ impl Coord {
                 }
                 ClosestCoord::None => closest_coord = ClosestCoord::Some(coord),
                 ClosestCoord::Some(closest) => {
-                    let distance = point.distance(&coord);
-                    let closest_distance = point.distance(&closest);
+                    let distance = point.distance(coord);
+                    let closest_distance = point.distance(closest);
                     if distance < closest_distance {
                         closest_coord = ClosestCoord::Some(coord);
                     } else if distance == closest_distance {
@@ -55,6 +55,14 @@ impl Coord {
 impl PartialEq for Coord {
     fn eq(&self, other: &Coord) -> bool {
         self.x == other.x && self.y == other.y
+    }
+}
+
+use std::hash::{Hash, Hasher};
+impl Hash for Coord {
+    fn hash<H: Hasher>(&self, state: &mut H) {
+        self.x.hash(state);
+        self.y.hash(state);
     }
 }
 
@@ -135,14 +143,16 @@ pub fn part_1() {
         if let ClosestCoord::Some(closest) = (Coord {
             x,
             y: bounding_box.y_min,
-        }.closest_coord(coords.clone()))
+        }
+        .closest_coord(coords.clone()))
         {
             *closest_counts.entry(closest).or_insert(0) = 0;
         }
         if let ClosestCoord::Some(closest) = (Coord {
             x,
             y: bounding_box.y_max,
-        }.closest_coord(coords.clone()))
+        }
+        .closest_coord(coords.clone()))
         {
             *closest_counts.entry(closest).or_insert(0) = 0;
         }
@@ -151,14 +161,16 @@ pub fn part_1() {
         if let ClosestCoord::Some(closest) = (Coord {
             x: bounding_box.x_min,
             y,
-        }.closest_coord(coords.clone()))
+        }
+        .closest_coord(coords.clone()))
         {
             *closest_counts.entry(closest).or_insert(0) = 0;
         }
         if let ClosestCoord::Some(closest) = (Coord {
             x: bounding_box.x_max,
             y,
-        }.closest_coord(coords.clone()))
+        }
+        .closest_coord(coords.clone()))
         {
             *closest_counts.entry(closest).or_insert(0) = 0;
         }
@@ -203,7 +215,7 @@ pub fn part_2() {
             let point = Coord { x, y };
             let mut distance = 0;
             for coord in coords.clone() {
-                distance += point.distance(&coord);
+                distance += point.distance(coord);
             }
             distances.insert(point, distance);
             progress_bar.inc(1);

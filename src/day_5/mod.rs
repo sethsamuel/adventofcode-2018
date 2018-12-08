@@ -5,7 +5,7 @@ const INPUT: &str = include_str!("input.txt");
 // use self::indicatif::ProgressBar;
 
 fn reduce(string: &str) -> String {
-    let mut input = string.clone().to_string();
+    let mut input = string.to_string();
     let mut was_reaction = true;
     while was_reaction {
         //Find reaction and update string
@@ -70,24 +70,22 @@ pub fn part_1() {
 use std::collections::HashMap;
 use std::thread;
 use std::time::Duration;
+#[allow(clippy::map_clone)]
 pub fn part_2() {
     let mut lengths: HashMap<char, usize> = HashMap::new();
     (b'a'..=b'z')
         .map(|alpha_byte| {
             let alpha = alpha_byte as char;
             println!("Removing all {}", alpha);
-            let mut input = INPUT.clone().to_string();
+            let mut input = INPUT.to_string();
             input = input.replace(&alpha.to_string(), "");
             input = input.replace(&alpha.to_string().to_uppercase(), "");
-            let child = thread::spawn(move || {
-                let reduced = reduce(&input);
-                // println!("Final product {} of length {}", reduced, reduced.len());
-                reduced
-            });
+            let child = thread::spawn(move || reduce(&input));
             thread::sleep(Duration::from_millis(1));
 
             (alpha, child)
-        }).collect::<Vec<_>>()
+        })
+        .collect::<Vec<_>>()
         .into_iter()
         .for_each(|(alpha, child)| {
             let reduced = child.join().unwrap();
