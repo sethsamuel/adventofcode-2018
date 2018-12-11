@@ -6,6 +6,7 @@ extern crate dialoguer;
 use dialoguer::Select;
 
 mod day_1;
+mod day_10;
 mod day_2;
 mod day_3;
 mod day_4;
@@ -20,7 +21,7 @@ fn main() {
     // let _ = puzzle_prompt();
     {
         let now = Instant::now();
-        day_9::part_2();
+        day_10::part_2();
         println!(
             "Elapsed: {}.{}",
             now.elapsed().as_secs(),
