@@ -8,6 +8,7 @@ use dialoguer::Select;
 mod day_1;
 mod day_10;
 mod day_11;
+mod day_12;
 mod day_2;
 mod day_3;
 mod day_4;
@@ -22,7 +23,7 @@ fn main() {
     // let _ = puzzle_prompt();
     {
         let now = Instant::now();
-        day_11::part_2();
+        day_12::part_2();
         println!(
             "Elapsed: {}.{}",
             now.elapsed().as_secs(),
